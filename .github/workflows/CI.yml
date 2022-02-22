@@ -6,44 +6,6 @@ on:
   - pull_request
 
 jobs:
-  # The CI test job
-  test:
-    name: ${{ matrix.gap-branch }} ${{ matrix.ABI }} - HPC ${{ matrix.HPCGAP }}
-    runs-on: ubuntu-latest
-    # Don't run this twice on PRs for branches pushed to the same repository
-    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
-    strategy:
-      fail-fast: false
-      matrix:
-        gap-branch:
-          - master
-          - stable-4.11
-          - stable-4.10
-          - stable-4.9
-        ABI:
-          - ''
-        HPCGAP:
-          - no
-        include:
-          - gap-branch: master
-            ABI: 32
-            HPCGAP: no
-          - gap-branch: master
-            ABI: ''
-            HPCGAP: yes
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: gap-actions/setup-gap@v2
-        with:
-          GAPBRANCH: ${{ matrix.gap-branch }}
-          ABI: ${{ matrix.ABI }}
-          HPCGAP: ${{ matrix.HPCGAP }}
-      - uses: gap-actions/build-pkg@v1
-      - uses: gap-actions/run-pkg-tests@v2
-      - uses: gap-actions/process-coverage@v2
-      - uses: codecov/codecov-action@v2
-
   test-cygwin:
     name: "master cygwin64 - HPC no"
     if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
