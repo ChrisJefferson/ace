@@ -82,7 +82,6 @@ local string;
     Info(InfoACE + InfoWarning, 1, "Sorry. Process stream has died!");
     Info(InfoACE + InfoWarning, 1, 
          "You might like to try using 'ACEResurrectProcess(<i>);'");
-    return fail;
   fi;
   string := Concatenation( List(list, String) );
   Info(InfoACE, 4, "ToACE> ", string);
